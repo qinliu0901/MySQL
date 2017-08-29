@@ -1,0 +1,388 @@
+mysql>SELECT NOW();
++---------------------+
+| NOW()               |
++---------------------+
+| 2017-08-18 18:33:09 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql>SELECT VERSION();
++------------+
+| VERSION()  |
++------------+
+| 5.7.17-log |
++------------+
+1 row in set (0.00 sec)
+
+mysql>\t
+mysql> CREAT DATABASE liuqin
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CREAT DATABASE liuqin' at line 1
+mysql> CREATE DATABASE liuqin1;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> CREATE SCHEMA liuqin2;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> CREATE SCHEMA liuqin2 IF NOT EXIST;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IF NOT EXIST' at line 1
+mysql> SHOW WARNING
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WARNING' at line 1
+mysql> SHOW WARNINGS;
++-------+------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Level | Code | Message                                                                                                                                                   |
++-------+------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Error | 1064 | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WARNING' at line 1 |
++-------+------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW CREAT DATABASE liuqin1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CREAT DATABASE liuqin1' at line 1
+mysql> SHOW CREATE DATABASE liuqin1;
++----------+------------------------------------------------------------------+
+| Database | Create Database                                                  |
++----------+------------------------------------------------------------------+
+| liuqin1  | CREATE DATABASE `liuqin1` /*!40100 DEFAULT CHARACTER SET utf8 */ |
++----------+------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE DATABAS IF NOT EXITS CHARACTER SET GBK
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABAS IF NOT EXITS CHARACTER SET GBK' at line 1
+mysql> CREATE DATABASE IF NOT EXITS DEFAULT CHARACTER SET GBK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'EXITS DEFAULT CHARACTER SET GBK' at line 1
+mysql> CREATE DATABASE IF NOT EXISTS liu CHARACTER SET GBK;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SHOW CREATE DATABASE liu;
++----------+-------------------------------------------------------------+
+| Database | Create Database                                             |
++----------+-------------------------------------------------------------+
+| liu      | CREATE DATABASE `liu` /*!40100 DEFAULT CHARACTER SET gbk */ |
++----------+-------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> USE liu;
+Database changed
+mysql> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| liu        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> DROP DATABASE liu;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SHOW DATABASES()
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '()' at line 1
+mysql> SHOW DATABASE();
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASE()' at line 1
+mysql> SHOW DATABASE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASE' at line 1
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| liuqin1            |
+| liuqin2            |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.03 sec)
+
+mysql> DROP DATABASE liuqin1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DROP DATABASE liuqin2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> help tinyint
+Name: 'TINYINT'
+Description:
+TINYINT[(M)] [UNSIGNED] [ZEROFILL]
+
+A very small integer. The signed range is -128 to 127. The unsigned
+range is 0 to 255.
+
+URL: http://dev.mysql.com/doc/refman/5.7/en/numeric-type-overview.html
+
+
+mysql> help tinyint;
+Name: 'TINYINT'
+Description:
+TINYINT[(M)] [UNSIGNED] [ZEROFILL]
+
+A very small integer. The signed range is -128 to 127. The unsigned
+range is 0 to 255.
+
+URL: http://dev.mysql.com/doc/refman/5.7/en/numeric-type-overview.html
+
+
+mysql> SHOW ENGINES;
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| Engine             | Support | Comment                                                        | Transactions | XA   | Savepoints |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| InnoDB             | DEFAULT | Supports transactions, row-level locking, and foreign keys     | YES          | YES  | YES        |
+| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                          | NO           | NO   | NO         |
+| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables      | NO           | NO   | NO         |
+| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears) | NO           | NO   | NO         |
+| MyISAM             | YES     | MyISAM storage engine                                          | NO           | NO   | NO         |
+| CSV                | YES     | CSV storage engine                                             | NO           | NO   | NO         |
+| ARCHIVE            | YES     | Archive storage engine                                         | NO           | NO   | NO         |
+| PERFORMANCE_SCHEMA | YES     | Performance Schema                                             | NO           | NO   | NO         |
+| FEDERATED          | NO      | Federated MySQL storage engine                                 | NULL         | NULL | NULL       |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+9 rows in set (0.00 sec)
+
+mysql> SHOW VARIABLES LIKE 'have%';
++------------------------+----------+
+| Variable_name          | Value    |
++------------------------+----------+
+| have_compress          | YES      |
+| have_crypt             | NO       |
+| have_dynamic_loading   | YES      |
+| have_geometry          | YES      |
+| have_openssl           | DISABLED |
+| have_profiling         | YES      |
+| have_query_cache       | YES      |
+| have_rtree_keys        | YES      |
+| have_ssl               | DISABLED |
+| have_statement_timeout | YES      |
+| have_symlink           | YES      |
++------------------------+----------+
+11 rows in set, 1 warning (0.01 sec)
+
+mysql> SHOW VARIABLES LIKE 'storage_engine';
+Empty set, 1 warning (0.01 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> --创建数据库
+    -> CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET 'UTF8';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建数据库
+CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET ' at line 1
+mysql> 
+mysql> USE ’mai’;
+ERROR 1049 (42000): Unknown database '’mai’'
+mysql> 
+mysql> --创建学员表user
+    -> --当需要输入中文时，需要临时转换客户端的编码方式
+    -> CREATE TABLE IF NOT EXISTS ’user’（
+    -> id SMALLINT,
+    -> usename VARCHAR(20),
+    -> age TINYINT,
+    -> sex ENUM('男'，'女','保密')，
+    -> email VARCHAR(50),
+    -> addr VARCHAR(200),
+    -> birth YEAR,
+    -> salary FLOAT(8,2),
+    -> married TINYINT(1) COMMENT '0是未婚'
+    -> ）ENGINE=INNODB CHARSET=UTF8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建学员表user
+--当需要输入中文时，需要临时转换客户端' at line 1
+mysql> CHARACTER SET=gbk;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CHARACTER SET=gbk' at line 1
+mysql> --创建数据库
+    -> CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET 'UTF8';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建数据库
+CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET ' at line 1
+mysql> 
+mysql> USE ’mai’;
+ERROR 1049 (42000): Unknown database '’mai’'
+mysql> 
+mysql> --创建学员表user
+    -> --当需要输入中文时，需要临时转换客户端的编码方式
+    -> CREATE TABLE IF NOT EXISTS ’user’（
+    -> id SMALLINT,
+    -> usename VARCHAR(20),
+    -> age TINYINT,
+    -> sex ENUM('男'，'女','保密')，
+    -> email VARCHAR(50),
+    -> addr VARCHAR(200),
+    -> birth YEAR,
+    -> salary FLOAT(8,2),
+    -> married TINYINT(1) COMMENT '0是未婚'
+    -> ）ENGINE=INNODB CHARSET=UTF8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建学员表user
+--当需要输入中文时，需要临时转换客户端' at line 1
+mysql> \S
+ERROR: 
+Unknown command '\S'.
+    -> \s;
+--------------
+
+Connection id:		3
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Using delimiter:	;
+Server version:		5.7.17-log MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		localhost via TCP/IP
+Server characterset:	utf8
+Db     characterset:	utf8
+Client characterset:	gbk
+Conn.  characterset:	gbk
+TCP port:		3306
+Uptime:			12 hours 39 min 32 sec
+
+Threads: 1  Questions: 46  Slow queries: 0  Opens: 115  Flush tables: 1  Open tables: 108  Queries per second avg: 0.001
+--------------
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '\S' at line 1
+mysql> SET NAMES GEK;
+ERROR 1115 (42000): Unknown character set: 'GEK'
+mysql> SET NAMES GBK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> \s;
+--------------
+
+Connection id:		3
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Using delimiter:	;
+Server version:		5.7.17-log MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		localhost via TCP/IP
+Server characterset:	utf8
+Db     characterset:	utf8
+Client characterset:	gbk
+Conn.  characterset:	gbk
+TCP port:		3306
+Uptime:			12 hours 40 min 22 sec
+
+Threads: 1  Questions: 52  Slow queries: 0  Opens: 115  Flush tables: 1  Open tables: 108  Queries per second avg: 0.001
+--------------
+
+ERROR: 
+No query specified
+
+mysql> --创建数据库
+    -> CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET 'UTF8';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建数据库
+CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET ' at line 1
+mysql> 
+mysql> USE ’mai’;
+ERROR 1049 (42000): Unknown database '’mai’'
+mysql> 
+mysql> --创建学员表user
+    -> --当需要输入中文时，需要临时转换客户端的编码方式
+    -> --SET NAMES GBK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建学员表user
+--当需要输入中文时，需要临时转换客户端' at line 1
+mysql> CREATE TABLE IF NOT EXISTS ’user’（
+    -> id SMALLINT,
+    -> usename VARCHAR(20),
+    -> age TINYINT,
+    -> sex ENUM('男'，'女','保密')，
+    -> email VARCHAR(50),
+    -> addr VARCHAR(200),
+    -> birth YEAR,
+    -> salary FLOAT(8,2),
+    -> married TINYINT(1) COMMENT '0是未婚'
+    -> ）ENGINE=INNODB CHARSET=UTF8;
+ERROR 1046 (3D000): No database selected
+mysql> --创建数据库
+    -> CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET 'UTF8';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建数据库
+CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET ' at line 1
+mysql> 
+mysql> USE ’mai’;
+ERROR 1049 (42000): Unknown database '’mai’'
+mysql> 
+mysql> --创建学员表user
+    -> --当需要输入中文时，需要临时转换客户端的编码方式
+    -> --SET NAMES GBK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建学员表user
+--当需要输入中文时，需要临时转换客户端' at line 1
+mysql> CREATE TABLE IF NOT EXISTS ’user’（
+    -> id SMALLINT,
+    -> usename VARCHAR(20),
+    -> age TINYINT,
+    -> sex ENUM('男'，'女','保密')，
+    -> email VARCHAR(50),
+    -> addr VARCHAR(200),
+    -> birth YEAR,
+    -> salary FLOAT(8,2),
+    -> married TINYINT(1) COMMENT '0是未婚'
+    -> ）ENGINE=INNODB CHARSET=UTF8;
+ERROR 1046 (3D000): No database selected
+mysql> SHOW TABLES;
+ERROR 1046 (3D000): No database selected
+mysql> 
+mysql> CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET 'UTF8';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> USE ’mai’;
+Database changed
+mysql> 
+mysql> --创建学员表user
+    -> --当需要输入中文时，需要临时转换客户端的编码方式
+    -> --SET NAMES GBK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建学员表user
+--当需要输入中文时，需要临时转换客户端' at line 1
+mysql> CREATE TABLE IF NOT EXISTS ’user’（
+    -> id SMALLINT,
+    -> usename VARCHAR(20),
+    -> age TINYINT,
+    -> sex ENUM('男'，'女','保密')，
+    -> email VARCHAR(50),
+    -> addr VARCHAR(200),
+    -> birth YEAR,
+    -> salary FLOAT(8,2),
+    -> married TINYINT(1) COMMENT '0是未婚'
+    -> ）ENGINE=INNODB CHARSET=UTF8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id SMALLINT,
+usename VARCHAR(20),
+age TINYINT,
+sex ENUM('男'，'女','保密')' at line 2
+mysql> SET NAMES GBK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> CREATE DATABASE IF NOT EXISTS ’mai’ DEFAULT CHARACTER SET 'UTF8';
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> 
+mysql> USE ’mai’;
+Database changed
+mysql> 
+mysql> --创建学员表user
+    -> --当需要输入中文时，需要临时转换客户端的编码方式
+    -> --SET NAMES GBK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--创建学员表user
+--当需要输入中文时，需要临时转换客户端' at line 1
+mysql> CREATE TABLE IF NOT EXISTS ’user’（
+    -> id SMALLINT,
+    -> usename VARCHAR(20),
+    -> age TINYINT,
+    -> sex ENUM('男'，'女','保密')，
+    -> email VARCHAR(50),
+    -> addr VARCHAR(200),
+    -> birth YEAR,
+    -> salary FLOAT(8,2),
+    -> married TINYINT(1) COMMENT '0是未婚'
+    -> ）ENGINE=INNODB CHARSET=UTF8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id SMALLINT,
+usename VARCHAR(20),
+age TINYINT,
+sex ENUM('男'，'女','保密')' at line 2
