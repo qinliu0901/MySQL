@@ -1,0 +1,20 @@
+--插入记录
+CREATE TABLE IF NOT EXISTS user1(
+id SMALLINT UNSIGNED KEY AUTO_INCREMENT,
+username VARCHAR(20) NOT NULL UNIQUE,
+password CHAR(32) NOT NULL,
+email VARCHAR(50) NOT NULL DEFAULT '834153554@QQ.com',
+age TINYINT UNSIGNED DEFAULT 18
+);
+INSERT user1(username,password) VALUES('A','AAA');
+INSERT INTO user1 SET id=98,username='LIU',password='2',email='834153554@QQ.com',age=18;
+--将查询结果添加到表中
+CREATE TABLE IF NOT EXISTS test(
+id SMALLINT UNSIGNED KEY AUTO_INCREMENT,
+username VARCHAR(20) NOT NULL UNIQUE
+);
+INSERT test SELECT id,username FROM user1;
+
+INSERT test(username) SELECT username FROM user1;
+
+
