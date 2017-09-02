@@ -51,6 +51,32 @@ SELECT * FROM user2 WHERE id>=3 AND age IS NOT NULL AND password=123;
 SELECT * FROM user2 WHERE id>=3 OR username LIKE '_i%';
 
 
+--分组查询
+--字段分组
+SELECT * FROM user2 GROUP BY proId;
+
+--向用户表中添加字段
+ALTER TABLE user2 ADD sex ENUM('male','female');
+UPDATE user2 SET sex='male' WHERE id IN(1,2,3);
+
+--按字段的位置分组
+
+SELECT * FROM user2 GROUP BY 2;
+
+SELECT * FROM user2 WHERE id>=3 AND GROUP BY sex;
+
+-- 查询id，sex，用户名详情按照性别分组
+SELECT id,sex,GROUP_CONCAT(username) FROM user2 GROUP BY sex;
+
+SELECT proId,GROUP_CONCAT(username),GROUP_CONCAT(id),GROUP_CONCAT(sex) FROM user2 GROUP BY proId;
+
+--查询编号，sex，用户名详情以及组中总人数按照sex分类
+
+SELECT id,sex,GROUP_CONCAT(username)AS users,COUNT(*) AS totalUsers FROM user2 GROUP BY sex;
+SELECT COUNT(id) FROM user2;
+
+--COUNT不统计null值
+--MAX(),MIN(),AVG(),SUM()，WITH ROLLUP 统计所有记录的总和
 
 
 
