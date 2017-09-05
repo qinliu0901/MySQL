@@ -115,3 +115,269 @@ UPDATE cms_user SET age=age+10 ORDER BY id DESC LIMIT 3;
 
 
 
+
+--连接查询
+
+--查询cms_user id,username
+-- provinces,proName
+SELECT cms_user.id,username,proName FROM cms_user,provinces
+WHERE cms_user.proId=provinces.id;
+
+SELECT u.id,u.username,u.email,u.sex,p.proName
+FROM cms_user AS u
+INNER JOIN provinces AS p
+ON u.proId=p.id;
+
+SELECT u.id,u.username,u.email,u.sex,p.proName
+FROM provinces AS p
+CROSS JOIN cms_user AS u
+ON u.proId=p.id;
+
+
+SELECT u.id,u.username,u.email,u.sex,p.proName
+FROM provinces AS p
+JOIN cms_user AS u
+ON u.proId=p.id;
+
+--查询cms_user id,username，sex
+--查询 provinces proName
+--条件是cms_user的性别为男的用户
+--对分组结果进行筛选，分组数>=3
+SELECT u.id,u.username,u.email,u.sex,p.proName,COUNT(*) AS TOTAL,GROUP_CONCAT(username)
+FROM cms_user AS u
+JOIN provinces AS p
+ON u.proId=p.id
+WHERE u.sex='male'
+GROUP BY p.proName
+HAVING COUNT(*)>=3
+ORDER BY u.id ASC
+LIMIT 0,2;
+
+
+--查询cms_news中的id，title
+--查询cms_cate的cateName
+SELECT n.id,n.title
+FROM cms_news AS n
+JOIN cms_cate AS c
+ON n.cId=c.id;
+
+--cms_admin username,role
+SELECT n.id,n.title,a.username,a.role
+FROM cms_news AS n
+JOIN cms_admin AS a
+ON n.aId=a.id;
+
+--cms_news中的id，title
+--cms_cate的cateName
+--cms_admin username,role
+--关键是找到表与表之间的联系
+SELECT n.id,n.title,a.username,a.role,c.cateName
+FROM cms_cate AS c
+JOIN cms_news AS n
+ON n.cId=c.id
+JOIN cms_admin AS a
+ON n.aId=a.id;
+
+--插入错误的数据
+INSERT cms_user(username,password,regTime,proId)
+VALUES('TEST1','TEST1','1235648566',20)
+
+--左外连接查询，以左表为准
+SELECT u.id,u.username,u.email,u.sex,p.proName
+FROM provinces AS p
+LEFT JOIN cms_user AS u
+ON u.proId=p.id;
+--右外连接，以右表为准
+SELECT u.id,u.username,u.email,u.sex,p.proName
+FROM provinces AS p
+RIGHT JOIN cms_user AS u
+ON u.proId=p.id;
+
+-- 员工职员表
+CREATE TABLE IF NOT EXISTS department(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+depName VARCHAR(20) NOT NULL UNIQUE
+)ENGINE=INNODB;
+INSERT department(depName) VALUES('教学部'),
+('市场部'),
+('运营部'),
+('督导部');
+
+CREATE TABLE IF NOT EXISTS employee(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+username VARCHAR(20) NOT NULL UNIQUE,
+depId TINYINT UNSIGNED
+)ENGINE=INNODB;
+INSERT employee(username,depId) VALUES('liuqin',1),
+('liu1',2),
+('liu2',3),
+('liu3',4),
+('liu4',1);
+--外键
+
+CREATE TABLE IF NOT EXISTS department(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+depName VARCHAR(20) NOT NULL UNIQUE
+)ENGINE=INNODB;
+
+INSERT department(depName) VALUES('教学部'),
+('市场部'),
+('运营部'),
+('督导部');
+
+CREATE TABLE IF NOT EXISTS employee(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+username VARCHAR(20) NOT NULL UNIQUE,
+depId TINYINT UNSIGNED,
+FOREIGN KEY(depId) REFERENCES department(id)
+)ENGINE=INNODB;
+
+INSERT employee(username,depId) VALUES('liuqin',1),
+('liu1',2),
+('liu2',3),
+('liu3',4),
+('liu4',1);
+
+SELECT e.id,e.username,d.depName FROM
+employee AS e
+JOIN
+department AS d
+ON e.depId=d.id;
+
+DELETE FROM department WHERE depName='督导部';
+
+DELETE FROM employee WHERE depId=4;
+--要先删部门下的员工，再删部门
+
+--删除员工表
+DROP TABLE employee;
+
+CREATE TABLE IF NOT EXISTS employee(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+username VARCHAR(20) NOT NULL UNIQUE,
+depId TINYINT UNSIGNED,
+CONSTRAINT emp_fk_dep FOREIGN KEY(depId) REFERENCES department(id)
+)ENGINE=INNODB;
+
+INSERT employee(username,depId) VALUES('liuqin',1),
+('liu1',2),
+('liu2',3),
+('liu3',4),
+('liu4',1);
+--删除外键
+ALTER TABLE employee DROP FOREIGN KEY emp_fk_dep;
+--添加外键
+ALTER TABLE employee ADD CONSTRAINT emp_fk_dep FOREIGN KEY(depId) REFERENCES department(id);
+
+--------CASCADE
+DROP TABLE department,employee; 
+CREATE TABLE IF NOT EXISTS department(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+depName VARCHAR(20) NOT NULL UNIQUE
+)ENGINE=INNODB;
+
+INSERT department(depName) VALUES('教学部'),
+('市场部'),
+('运营部'),
+('督导部');
+
+CREATE TABLE IF NOT EXISTS employee(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+username VARCHAR(20) NOT NULL UNIQUE,
+depId TINYINT UNSIGNED
+-- FOREIGN KEY(depId) REFERENCES department(id) ON DELETE CASCADE ON UPDATE CASCADE
+-- 删除后变成NULL, FOREIGN KEY(depId) REFERENCES department(id) ON DELETE SET NULL ON UPDATE SET NULL
+)ENGINE=INNODB;
+
+INSERT employee(username,depId) VALUES('liuqin',1),
+('liu1',2),
+('liu2',3),
+('liu3',4),
+('liu4',1);
+
+--删除部门表的第一个部门
+DELETE FROM department WHERE id=1;
+
+--联合查询:UNION查询结果是删除了共同的元素,UNION ALL是合并了全部的
+SELECT username FROM employee UNION SELECT username FROM cms_user;
+
+SELECT username FROM employee UNION ALL SELECT username FROM cms_user;
+
+SELECT username,age FROM employee UNION ALL SELECT username,age FROM cms_user;
+
+
+
+-- 子查询IN,NOT IN
+SELECT id FROM department;
+
+SELECT id,username FROM employee WHERE depId IN(1,2,3,4);
+
+SELECT id,username FROM employee WHERE depId IN(SELECT id FROM department);
+
+-- 创建学员表
+CREATE TABLE IF NOT EXISTS student(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+username VARCHAR(20) NOT NULL UNIQUE,
+score TINYINT UNSIGNED
+);
+INSERT student(username,score) VALUES('liu1',99),
+('liu2',99),
+('liu3',80),
+('liu4',70),
+('liu5',60),
+('liu6',53),
+('liu7',80),
+('liu8',77);
+
+-- 创建奖学金表
+CREATE TABLE IF NOT EXISTS scholarship(
+id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+level TINYINT UNSIGNED
+);
+INSERT scholarship(level) VALUES(90),(80),(70);
+-- 查询获得一等奖学金的学生
+SELECT level FROM scholarship WHERE id=1;
+SELECT id,username FROM student WHERE score>=90;
+SELECT id,username FROM student WHERE score>=(SELECT level FROM scholarship WHERE id=1);
+
+-- 查询所有获得奖学金的学生
+SELECT id,username,score FROM student WHERE score>=ANY(SELECT level FROM scholarship);
+SELECT id,username,score FROM student WHERE score>=SOME(SELECT level FROM scholarship);
+-- 一等
+SELECT id,username,score FROM student WHERE score>=ALL(SELECT level FROM scholarship);
+-- 查询没有获得奖学金的学生
+SELECT id,username,score FROM student WHERE score<ALL(SELECT level FROM scholarship);
+
+SELECT id,username,score FROM student WHERE score=ANY(SELECT level FROM scholarship);
+SELECT id,username,score FROM student WHERE score<>ALL(SELECT level FROM scholarship);
+
+INSERT TEST1(id,username)
+SELECT id,username FROM student;-- 先执行这句
+
+-- 正则表达式
+-- ^ 匹配字符开始的部分，$匹配字符串的末尾部分
+-- .表示任意字符
+SELECT * FROM cms_user WHERE username REGEXP '.';
+SELECT * FROM cms_user WHERE username REGEXP 'R..G';
+-- [字符集合]
+SELECT * FROM cms_user WHERE username REGEXP '[lto]';
+SELECT * FROM cms_user WHERE username REGEXP '[^lto]';-- 除了字符集合中的
+
+SELECT * FROM cms_user WHERE username REGEXP 'ng|qu';
+
+SELECT * FROM cms_user WHERE username REGEXP 'que*';-- 出现0次，1次或者多次
+SELECT * FROM cms_user WHERE username REGEXP 'e*';
+
+SELECT * FROM cms_user WHERE username REGEXP 'e+';-- 一次或者多次
+
+SELECT * FROM cms_user WHERE username REGEXP 'que{2}';-- 出现2次
+
+-- XOR异或，是不同为真
+
+
+
+
+
+
+
+
