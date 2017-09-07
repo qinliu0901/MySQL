@@ -1883,3 +1883,267 @@ mysql> SELECT id,username,age,age BETWEEN 10 AND 30 FROM cms_user;
 +----+-----------+------+-----------------------+
 12 rows in set (0.04 sec)
 
+mysql> SELECT CONCAT_WS('^','A','B');
++------------------------+
+| CONCAT_WS('^','A','B') |
++------------------------+
+| A^B                    |
++------------------------+
+1 row in set (0.04 sec)
+
+mysql> SELECT LOWER('ADC');
++--------------+
+| LOWER('ADC') |
++--------------+
+| adc          |
++--------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT LPAD('A',5,'*'),RPAD('A',4,'#');
++-----------------+-----------------+
+| LPAD('A',5,'*') | RPAD('A',4,'#') |
++-----------------+-----------------+
+| ****A           | A###            |
++-----------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT PEPLACE('ABCA','A','_');
+ERROR 1305 (42000): FUNCTION cms.PEPLACE does not exist
+mysql> SELECT REPLACE('ABCA','A','_');
++-------------------------+
+| REPLACE('ABCA','A','_') |
++-------------------------+
+| _BC_                    |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ELT(2,'A','B','F');
++--------------------+
+| ELT(2,'A','B','F') |
++--------------------+
+| B                  |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CURDATA();
+ERROR 1305 (42000): FUNCTION cms.CURDATA does not exist
+mysql> SELECT CURDATE();
++------------+
+| CURDATE()  |
++------------+
+| 2017-09-07 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CURTIME();
++-----------+
+| CURTIME() |
++-----------+
+| 23:15:55  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT NOW();
++---------------------+
+| NOW()               |
++---------------------+
+| 2017-09-07 23:16:11 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MONTHNAME();
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'MONTHNAME'
+mysql> SELECT MONTHNAME(NOW());
++------------------+
+| MONTHNAME(NOW()) |
++------------------+
+| September        |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT HOUR(NOW());
++-------------+
+| HOUR(NOW()) |
++-------------+
+|          23 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DATEDIFF(NOW(),'1990-5-22');
++-----------------------------+
+| DATEDIFF(NOW(),'1990-5-22') |
++-----------------------------+
+|                        9970 |
++-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++----+----------+-------+
+| id | username | score |
++----+----------+-------+
+|  9 | liu1     |    99 |
+| 10 | liu2     |    99 |
+| 11 | liu3     |    80 |
+| 12 | liu4     |    70 |
+| 13 | liu5     |    60 |
+| 14 | liu6     |    53 |
+| 15 | liu7     |    80 |
+| 16 | liu8     |    77 |
++----+----------+-------+
+8 rows in set (0.02 sec)
+
+mysql> SELECT id,username,score,CASE WHEN SCORE>60 THEN 'JIGE' WHEN score<60 then 'bujige' ELSE 'GANGHAO';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> SELECT id,username,score,CASE WHEN SCORE>60 THEN 'JIGE' WHEN score<60 then 'bujige' ELSE 'GANGHAO' END FROM student;
++----+----------+-------+-------------------------------------------------------------------------------+
+| id | username | score | CASE WHEN SCORE>60 THEN 'JIGE' WHEN score<60 then 'bujige' ELSE 'GANGHAO' END |
++----+----------+-------+-------------------------------------------------------------------------------+
+|  9 | liu1     |    99 | JIGE                                                                          |
+| 10 | liu2     |    99 | JIGE                                                                          |
+| 11 | liu3     |    80 | JIGE                                                                          |
+| 12 | liu4     |    70 | JIGE                                                                          |
+| 13 | liu5     |    60 | GANGHAO                                                                       |
+| 14 | liu6     |    53 | bujige                                                                        |
+| 15 | liu7     |    80 | JIGE                                                                          |
+| 16 | liu8     |    77 | JIGE                                                                          |
++----+----------+-------+-------------------------------------------------------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT MD5('ADMIN');
++----------------------------------+
+| MD5('ADMIN')                     |
++----------------------------------+
+| 73acd9a5972130b75066c82595a1fae3 |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT PASSWORD('ROOT');
++-------------------------------------------+
+| PASSWORD('ROOT')                          |
++-------------------------------------------+
+| *B22C45ACDDE9E0292A04BD75767938A955E93D13 |
++-------------------------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT FORMAT(2.34333,2);
++-------------------+
+| FORMAT(2.34333,2) |
++-------------------+
+| 2.34              |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT BIN(5),HEX(5),OCT(5);
++--------+--------+--------+
+| BIN(5) | HEX(5) | OCT(5) |
++--------+--------+--------+
+| 101    | 5      | 5      |
++--------+--------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONV(10,10,2);
++---------------+
+| CONV(10,10,2) |
++---------------+
+| 1010          |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONV(10,10,3);
++---------------+
+| CONV(10,10,3) |
++---------------+
+| 101           |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT INET_ATON('127.12.01');
++------------------------+
+| INET_ATON('127.12.01') |
++------------------------+
+|             2131492865 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> show tables;
++---------------+
+| Tables_in_cms |
++---------------+
+| cms_admin     |
+| cms_cate      |
+| cms_news      |
+| cms_user      |
+| department    |
+| employee      |
+| provinces     |
+| scholarship   |
+| student       |
++---------------+
+9 rows in set (0.00 sec)
+
+mysql> CREATE TABLE TEST1(
+    -> id TINYINT UNSIGNED,
+    -> username VARCHAR(20),
+    -> INDEX in_id(id),
+    -> KEY in_username(username)
+    -> );
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> CREATE TABLE TEST2(
+    -> id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+    -> username VARCHAR(20) NOT NULL UNIQUE,
+    -> card CHAR(18) NOT NULL,
+    -> UNIQUE KEY uni_card(card)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> show create table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show create table TEST2;
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| TEST2 | CREATE TABLE `test2` (
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(20) NOT NULL,
+  `card` char(18) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `uni_card` (`card`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.01 sec)
+
+mysql> CREATE TABLE TEST3(
+    -> id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+    -> username VARCHAR(20) NOT NULL UNIQUE,
+    -> card CHAR(18) NOT NULL,
+    -> FULLTEXT INDEX full_card(card)
+    -> );
+Query OK, 0 rows affected (4.39 sec)
+
+mysql> 
+mysql> CREATE TABLE TEST4(
+    -> id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+    -> test1 VARCHAR(20) NOT NULL,
+    -> test2 VARCHAR(20) NOT NULL,
+    -> test3 VARCHAR(20) NOT NULL,
+    -> test4 VARCHAR(20) NOT NULL,
+    -> INDEX in_test1(test1)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> CREATE TABLE TEST5(
+    -> id TINYINT UNSIGNED AUTO_INCREMENT KEY,
+    -> test1 VARCHAR(20) NOT NULL,
+    -> test2 VARCHAR(20) NOT NULL,
+    -> test3 VARCHAR(20) NOT NULL,
+    -> test4 VARCHAR(20) NOT NULL,
+    -> INDEX mul_t1_t2_t3_t4(test1,test2,test3,test4)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> DROP INDEX in_id ON TEST1;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
