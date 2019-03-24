@@ -81,6 +81,57 @@ SELECT COUNT(id) FROM user2;
 
 
 
+-- DQL.sql 2019/3/24
+ 
+ -- 查询语句，使用DQL命令查询数据
+
+
+/* select distinct 字段名 from 表名
+left join   on
+
+where 
+group by
+having
+order by
+limit
+*/
+
+SELECT NOW(); # 查询当前时间
+
+-- concat()拼接函数,一个或多个拼接
+SELECT CONCAT(sname, ', hello') as Hello from student;
+-- 数值类型才可以+
+
+SELECT * FROM student WHERE sname LIKE 'liu_'; # 单个字符匹配
+SELECT * FROM student WHERE sname LIKE 'liu%'; # 全部匹配
+
+/* 连接查询：内连接inner join  on，外连接
+外连接：左连接以左表为主，左表都能查到，但右表不一定，右连接以右表为主*/
+
+
+SELECT s.sname, s.sno FROM student s 
+LEFT JOIN score sc ON s.sno = sc.sno WHERE degree > 80;
+
+-- 自查询
+SELECT s.sname,s.no FROM student s, student st WHERE s.no = st.no;
+
+-- 多字段排序，先按第一个字段排序，再第二个，如果第一个排序后数据相同再按第二个字段排序
+SELECT * FROM student ORDER BY sno LIMIT 3;
+SELECT * FROM student ORDER BY sno LIMIT 1,2; # 从第二条开始，显示两条，第一个数字开始位置偏移量，第二个参数显示条数
+
+-- with rollup 添加一行计算总和，GROUP_CONCAT拼接分组中的数据
+SELECT GROUP_CONCAT(sname), COUNT(ssex) FROM student GROUP BY ssex WITH ROLLUP;
+SELECT ssex, COUNT(ssex) FROM student GROUP BY ssex HAVING COUNT(ssex) > 4;
+
+-- 两表合并，列数相同
+-- union合并W完全相同的数据，不相同的显示，union all合并所有数据
+ SELECT * FROM student UNION ALL SELECT * FROM score;
+
+ SELECT sname FROM student WHERE EXISTS (SELECT sno FROM student WHERE sno = 2);
+
+
+
+
 
 
 
